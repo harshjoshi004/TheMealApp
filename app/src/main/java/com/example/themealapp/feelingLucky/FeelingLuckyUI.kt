@@ -25,6 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.BottomAppBarScrollBehavior
@@ -35,6 +36,8 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.getValue
@@ -42,6 +45,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -49,6 +53,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
+import com.example.themealapp.R
 import com.example.themealapp.ui.theme.MyCenteredTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,19 +76,52 @@ fun FeelingLuckyUI(viewModel:FeelingLuckyViewModel, navcon: NavHostController) {
                 navIcon = {},
                 actionIcon = {}
             )
+        },
+        bottomBar = {
+            NavigationBar {
+                NavigationBarItem(selected = false,
+
+                    onClick = { navcon.navigate("search_view_model") },
+                    icon = {
+                        Icon(painterResource(id = R.drawable.search_24),
+                            contentDescription = null)
+                    }
+                )
+                NavigationBarItem(selected = true,
+
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(painterResource(id = R.drawable.randomhome),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,)
+                    }
+                )
+                NavigationBarItem(selected = false,
+
+                    onClick = { navcon.navigate("categories_ui") },
+                    icon = {
+                        Icon(painterResource(id = R.drawable.categoryicon),
+                            contentDescription = null)
+                    }
+                )
+            }
         }
     ) { paddingVal->
         when{
             feelingLuckyState.loading ->{
                 Text(
                     text = "Loading",
-                    modifier = Modifier.padding(paddingVal).fillMaxSize()
+                    modifier = Modifier
+                        .padding(paddingVal)
+                        .fillMaxSize()
                 )
             }
             feelingLuckyState.error != null ->{
                 Text(
                     text = "Error Occured: ${feelingLuckyState.error}",
-                    modifier = Modifier.padding(paddingVal).fillMaxSize()
+                    modifier = Modifier
+                        .padding(paddingVal)
+                        .fillMaxSize()
                 )
             }
             else ->{

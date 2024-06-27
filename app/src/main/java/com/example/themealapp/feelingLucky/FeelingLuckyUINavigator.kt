@@ -7,10 +7,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.themealapp.listAllCategories.CategoriesUI
+import com.example.themealapp.listAllCategories.CategoriesViewModel
+import com.example.themealapp.searchMealByName.SearchMealUI
+import com.example.themealapp.searchMealByName.SearchMealViewModel
 
 @Composable
 fun FeelingLuckyUINavigator(){
     val viewModel:FeelingLuckyViewModel = viewModel()
+    val catviewModel:CategoriesViewModel = viewModel()
+    val searchviewModel:SearchMealViewModel = viewModel()
     val navcon = rememberNavController()
 
     NavHost(navController = navcon, startDestination = "feeling_lucky_ui"){
@@ -42,6 +48,12 @@ fun FeelingLuckyUINavigator(){
         ){
             val id = it.arguments?.getString("id")?:"52772"
             MealInfoView(i = id, viewModel = viewModel, navcon = navcon)
+        }
+        composable("categories_ui"){
+            CategoriesUI(catViewModel = catviewModel, navcon)
+        }
+        composable("search_view_model"){
+            SearchMealUI(searchviewModel,navcon)
         }
     }
 }
